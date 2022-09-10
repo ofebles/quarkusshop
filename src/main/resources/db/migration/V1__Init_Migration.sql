@@ -1,136 +1,136 @@
-CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START WITH 1 INCREMENT BY 1;
+create sequence hibernate_sequence START WITH 100 INCREMENT BY 1;
 
-CREATE TABLE cart
+create table "carts"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    customer_id        BIGINT,
-    status             VARCHAR(255)                NOT NULL,
-    CONSTRAINT pk_cart PRIMARY KEY (id)
+    "id"                 bigint       not null,
+    "created_date"       timestamp    not null,
+    "last_modified_date" timestamp,
+    "status"             varchar(255) not null,
+    "customer_id"        bigint
 );
+alter table "carts"
+    add constraint "cart_pk" primary key ("id");
 
-CREATE TABLE categories
+create table "categories"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    name               VARCHAR(255)                NOT NULL,
-    description        VARCHAR(255)                NOT NULL,
-    CONSTRAINT pk_categories PRIMARY KEY (id)
+    "id"                 bigint       not null,
+    "created_date"       timestamp    not null,
+    "last_modified_date" timestamp,
+    "description"        varchar(255) not null,
+    "name"               varchar(255) not null
 );
+alter table "categories"
+    add constraint "categories_pk" primary key ("id");
 
-CREATE TABLE customers
+create table "customers"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    first_name         VARCHAR(255),
-    last_name          VARCHAR(255),
-    email              VARCHAR(255),
-    telephone          VARCHAR(255),
-    enabled            BOOLEAN                     NOT NULL,
-    CONSTRAINT pk_customers PRIMARY KEY (id)
+    "id"                 bigint    not null,
+    "created_date"       timestamp not null,
+    "last_modified_date" timestamp,
+    "email"              varchar(255),
+    "enabled"            boolean   not null,
+    "first_name"         varchar(255),
+    "last_name"          varchar(255),
+    "telephone"          varchar(255)
 );
+alter table "customers"
+    add constraint "customer_pk" primary key ("id");
 
-CREATE TABLE order_items
+create table "order_items"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    quantity           BIGINT                      NOT NULL,
-    product_id         BIGINT,
-    order_id           BIGINT,
-    CONSTRAINT pk_order_items PRIMARY KEY (id)
+    "id"                 bigint    not null,
+    "created_date"       timestamp not null,
+    "last_modified_date" timestamp,
+    "quantity"           bigint    not null,
+    "order_id"           bigint,
+    "product_id"         bigint
 );
+alter table "order_items"
+    add constraint "order_item_pk" primary key ("id");
 
-CREATE TABLE orders
+create table "orders"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    total_price        DECIMAL(10, 2)              NOT NULL,
-    status             VARCHAR(255)                NOT NULL,
-    shipped            TIMESTAMP with time zone,
-    payment_id         BIGINT,
-    cart_id            BIGINT,
-    address_1          VARCHAR(255),
-    address_2          VARCHAR(255),
-    city               VARCHAR(255),
-    postcode           VARCHAR(10)                 NOT NULL,
-    country            VARCHAR(2)                  NOT NULL,
-    CONSTRAINT pk_orders PRIMARY KEY (id)
+    "id"                 bigint         not null,
+    "created_date"       timestamp      not null,
+    "last_modified_date" timestamp,
+    "address_1"          varchar(255),
+    "address_2"          varchar(255),
+    "city"               varchar(255),
+    "country"            varchar(2),
+    "postcode"           varchar(10),
+    "shipped"            timestamp,
+    "status"             varchar(255)   not null,
+    "total_price"        decimal(10, 2) not null,
+    "cart_id"            bigint,
+    "payment_id"         bigint
 );
+alter table "orders"
+    add constraint "orders_pk" primary key ("id");
 
-CREATE TABLE payments
+create table "payments"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    paypal_payment_id  VARCHAR(255),
-    status             VARCHAR(255)                NOT NULL,
-    amount             DECIMAL                     NOT NULL,
-    CONSTRAINT pk_payments PRIMARY KEY (id)
+    "id"                 bigint         not null,
+    "created_date"       timestamp      not null,
+    "last_modified_date" timestamp,
+    "paypal_payment_id"  varchar(255),
+    "status"             varchar(255)   not null,
+    "amount"             decimal(10, 2) not null
 );
+alter table "payments"
+    add constraint "payment_pk" primary key ("id");
 
-CREATE TABLE products
+create table "products"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    name               VARCHAR(255)                NOT NULL,
-    description        VARCHAR(255)                NOT NULL,
-    price              DECIMAL(10, 2)              NOT NULL,
-    status             VARCHAR(255)                NOT NULL,
-    sales_counter      INTEGER,
-    category_id        BIGINT,
-    CONSTRAINT pk_products PRIMARY KEY (id)
+    "id"                 bigint         not null,
+    "created_date"       timestamp      not null,
+    "last_modified_date" timestamp,
+    "description"        varchar(255)   not null,
+    "name"               varchar(255)   not null,
+    "price"              decimal(10, 2) not null,
+    "sales_counter"      integer,
+    "status"             varchar(255)   not null,
+    "category_id"        bigint
 );
+alter table "products"
+    add constraint "product_pk" primary key ("id");
 
-CREATE TABLE products_reviews
+create table "products_reviews"
 (
-    product_id BIGINT NOT NULL,
-    reviews_id BIGINT NOT NULL,
-    CONSTRAINT pk_products_reviews PRIMARY KEY (product_id, reviews_id)
+    "product_id" bigint not null,
+    "reviews_id" bigint not null
 );
+alter table "products_reviews"
+    add constraint "products_reviews_pk" primary key ("product_id", "reviews_id");
 
-CREATE TABLE reviews
+create table "reviews"
 (
-    id                 BIGINT                      NOT NULL,
-    created_date       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    title              VARCHAR(255)                NOT NULL,
-    description        VARCHAR(255)                NOT NULL,
-    rating             BIGINT                      NOT NULL,
-    CONSTRAINT pk_reviews PRIMARY KEY (id)
+    "id"                 bigint       not null,
+    "created_date"       timestamp    not null,
+    "last_modified_date" timestamp,
+    "description"        varchar(255) not null,
+    "rating"             bigint       not null,
+    "title"              varchar(255) not null
 );
+alter table "reviews"
+    add constraint "review_pk" primary key ("id");
 
-ALTER TABLE orders
-    ADD CONSTRAINT uc_orders_payment UNIQUE (payment_id);
-
-ALTER TABLE products_reviews
-    ADD CONSTRAINT uc_products_reviews_reviews UNIQUE (reviews_id);
-
-ALTER TABLE cart
-    ADD CONSTRAINT FK_CART_ON_CUSTOMER FOREIGN KEY (customer_id) REFERENCES customers (id);
-
-ALTER TABLE orders
-    ADD CONSTRAINT FK_ORDERS_ON_CART FOREIGN KEY (cart_id) REFERENCES cart (id);
-
-ALTER TABLE orders
-    ADD CONSTRAINT FK_ORDERS_ON_PAYMENT FOREIGN KEY (payment_id) REFERENCES payments (id);
-
-ALTER TABLE order_items
-    ADD CONSTRAINT FK_ORDER_ITEMS_ON_ORDER FOREIGN KEY (order_id) REFERENCES orders (id);
-
-ALTER TABLE order_items
-    ADD CONSTRAINT FK_ORDER_ITEMS_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES products (id);
-
-ALTER TABLE products
-    ADD CONSTRAINT FK_PRODUCTS_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES categories (id);
-
-ALTER TABLE products_reviews
-    ADD CONSTRAINT fk_prorev_on_product FOREIGN KEY (product_id) REFERENCES products (id);
-
-ALTER TABLE products_reviews
-    ADD CONSTRAINT fk_prorev_on_review FOREIGN KEY (reviews_id) REFERENCES reviews (id);
+alter table "products_reviews"
+    add constraint "products_reviews_uk" unique ("reviews_id");
+alter table "orders"
+    add constraint "orders_uk" unique ("payment_id");
+alter table "products_reviews"
+    add constraint "products_reviews_fk1" foreign key ("reviews_id") references "reviews" ("id");
+alter table "carts"
+    add constraint "cart_fk" foreign key ("customer_id") references "customers" ("id");
+alter table "order_items"
+    add constraint "order_item_fk1" foreign key ("product_id") references "products" ("id");
+alter table "orders"
+    add constraint "orders_fk1" foreign key ("payment_id") references "payments" ("id");
+alter table "order_items"
+    add constraint "order_item_fk2" foreign key ("order_id") references "orders" ("id");
+alter table "products"
+    add constraint "product_fk" foreign key ("category_id") references "categories" ("id");
+alter table "orders"
+    add constraint "orders_fk2" foreign key ("cart_id") references "carts" ("id");
+alter table "products_reviews"
+    add constraint "products_reviews_fk2" foreign key ("product_id") references "products" ("id");

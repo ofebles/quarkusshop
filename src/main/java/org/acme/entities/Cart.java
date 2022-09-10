@@ -16,7 +16,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 public class Cart extends AbstractEntity {
 
     @ManyToOne
